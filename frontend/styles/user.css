@@ -1,0 +1,23 @@
+table,th,tr,td{
+    border: 2px solid black;
+}
+
+#btns{
+    display: flex;
+    justify-content: space-around;
+    width: 500px;
+    margin: auto;
+    
+}
+
+th,tr,td{
+    padding: 5px;
+}
+
+h1{
+    text-align: center;
+}
+
+table{
+    margin: auto;
+}
