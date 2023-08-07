@@ -1,21 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./styles/user.css">
     <title>Users Page</title>
 </head>
+
 <body>
     <h1>All Users Detail</h1>
-    <label for="">Search By Name</label>
-    <input type="text" name="" id="search">
-    <label for="">Sort By DOB</label>
-    <select name="" id="sort">
-        <option value="select">select</option>
-        <option value="low to high">low to high</option>
-        <option value="high to low">high to low</option>
-    </select>
+    <div id="fields">
+        <label for="">Search By Name</label>
+        <input type="text" name="" id="search">
+        <label for="">Sort By DOB</label>
+        <select name="" id="sort">
+            <option value="select">select</option>
+            <option value="low to high">low to high</option>
+            <option value="high to low">high to low</option>
+        </select>
+    </div>
+
     <table>
         <thead>
             <tr>
@@ -37,11 +42,12 @@
 
     <div id="btns">
         <button id="prev">Previous Page</button>
-    <p id="page"></p>
-    <button id="next">Next Page</button>
+        <p id="page"></p>
+        <button id="next">Next Page</button>
     </div>
-    
+
 </body>
+
 </html>
 
 <script src="./scripts/user.js"></script>

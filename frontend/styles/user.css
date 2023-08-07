@@ -7,7 +7,7 @@ table,th,tr,td{
     justify-content: space-around;
     width: 500px;
     margin: auto;
-    
+    padding: 15px;
 }
 
 th,tr,td{
@@ -20,4 +20,11 @@ h1{
 
 table{
     margin: auto;
+}
+
+#fields{
+    /* border: 2px solid red; */
+    width: 500px;
+    margin: auto;
+    padding: 20px;
 }

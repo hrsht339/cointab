@@ -11,10 +11,23 @@ app.get("/",(req,res)=>{
     res.send("welcome to harshit's user management system")
 })
 
-app.get("/get",(req,res)=>{
-    User.findAll().then((result)=>{
-        res.send(result)
-    })
+app.get("/get/:page",async(req,res)=>{
+    let page = req.params.page
+    let total = await User.findAndCountAll() 
+    let count=total.count
+    let pages = Math.ceil(count/10)
+    if(page>0 && page<=pages){
+        const users = await User.findAll({
+            limit: 10,
+            offset:(page-1)*10,
+        });
+        res.send(users)
+    }
+    else{
+        res.send({
+            "msg":"out of range"
+        })
+    }
 })
 
 app.post("/create",(req,res)=>{

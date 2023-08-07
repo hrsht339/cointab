@@ -38,47 +38,60 @@ function display(data) {
 }
 
 let arr
-fetch("http://localhost:4500/get")
-    .then((res) => {
-        return res.json()
-    }).then((result) => {
-        arr = result
-        display(arr.slice(0, 10))
-        console.log(arr)
-        pagination(arr)
-    }).catch((err) => {
+
+let counter = 1
+
+async function fetcher() {
+    try {
+        let res = await fetch(`http://localhost:4500/get/${counter}`)
+        let result = await res.json()
+        if (result.msg != "out of range") {
+            arr = result
+            display(arr)
+            return true
+        }
+        else {
+            display(arr)
+            return false
+        }
+    }
+    catch(err){
         console.log(err)
-    })
+    }
+   
+}
+
 
 
 let prev = document.querySelector("#prev")
 let next = document.querySelector("#next")
 let pageno = document.querySelector("#page")
 
+pageno.innerText = counter
 
-function pagination(parr) {
-    
-    let count = parr.length
-    let pages = Math.ceil(count / 10)
-    let currpage = 1
-    pageno.innerText = currpage
+next.addEventListener("click", async() => {
+    counter++
+    if (await fetcher()) {
+        pageno.innerText = counter
+    }
+    else{
+        counter--
+        pageno.innerText = counter
+    }
+    console.log(counter)
 
-    next.addEventListener("click", () => {
-        if (currpage < pages) {
-            currpage++
-            pageno.innerText = currpage
-            display(parr.slice(10 * (currpage - 1), (10 * (currpage - 1)) + 10))
-        }
-    })
+})
 
-    prev.addEventListener("click", () => {
-        if (currpage > 1) {
-            currpage--
-            pageno.innerText = currpage
-            display(parr.slice(10 * (currpage - 1), (10 * (currpage - 1)) + 10))
-        }
-    })
-}
+prev.addEventListener("click", async() => {
+    counter--
+    if (await fetcher()) {
+        pageno.innerText = counter
+    }
+    else {
+        counter++
+        pageno.innerText = counter
+    }
+})
 
 
 
@@ -86,32 +99,32 @@ let search = document.querySelector("#search")
 let sort = document.querySelector("#sort")
 
 
-search.addEventListener("input",(e)=>{
+search.addEventListener("input", (e) => {
     let inp = e.target.value
-    let farr = arr.filter((user)=>{
+    let farr = arr.filter((user) => {
         return user.name.toLowerCase().includes(inp.toLowerCase())
     })
-    display(farr.slice(0, 10))
-    pagination(farr)
+    display(farr)
 })
 
 
-sort.addEventListener("change",(e)=>{
-    let mapp=arr.map((elem)=>{
+sort.addEventListener("change", (e) => {
+    let mapp = arr.map((elem) => {
         elem.dob = new Date(elem.dob)
         return elem
     })
     console.log(mapp)
-    if(e.target.value=="low to high"){
-        let farr = mapp.sort((a,b)=>{return a.dob-b.dob})
+    if (e.target.value == "low to high") {
+        let farr = mapp.sort((a, b) => { return a.dob - b.dob })
         // display(farr)
-        display(farr.slice(0, 10))
-        pagination(farr)
+        display(farr)
     }
-    else if(e.target.value=="high to low"){
-        let farr = mapp.sort((a,b)=>{return b.dob-a.dob})
+    else if (e.target.value == "high to low") {
+        let farr = mapp.sort((a, b) => { return b.dob - a.dob })
         // display(farr)
-        display(farr.slice(0, 10))
-        pagination(farr)
+        display(farr)
     }
 })
+
+
+fetcher()
